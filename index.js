@@ -1,40 +1,23 @@
-const http = require('http');
-const fs = require('fs');
+const express = require('express');
+const server = express();
+const path = require('path');
 
-const server = http.createServer((req, res) => {
-    
-    res.setHeader("Content-Type", "text/html");
-    
-    let path = "./";
-    switch (req.url) {
-        case "/":
-            path += "index.html";
-            res.statusCode = 200;
-            break;
-        case "/about":
-            path += "about.html";
-            res.statusCode = 200;
-            break;
-        case "/contact":
-            path += "contact.html";
-            res.statusCode = 200;
-            break;
-        default:
-            path += "404.html";
-            res.statusCode = 404;
-            break;
-    }
+server.get("/", (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});
 
-    fs.readFile(path, (err, data) => {
-        if (err) {
-            console.log(err);
-            res.end();
-        } else {
-            res.end(data);
-        }
-    })
-})
+server.get("/about", (req, res) => {
+    res.sendFile(path.join(__dirname, "about.html"));
+});
 
-server.listen(3000, 'localhost', () => {
+server.get("/contact", (req, res) => {
+    res.sendFile(path.join(__dirname, "contact.html"));
+});
+
+server.use((req, res) => {
+    res.sendFile(path.join(__dirname, "404.html"));
+});
+
+server.listen(3000, () => {
     console.log("Listening at localhost:3000");
 })
