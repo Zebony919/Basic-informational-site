@@ -1,23 +1,15 @@
-const express = require('express');
+const express = require("express");
 const server = express();
-const path = require('path');
+const path = require("path");
 
-server.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
-});
+const indexRouter = require("./routes/indexRouter.js");
+const authorRouter = require("./routes/authorRouter.js");
+const bookRouter = require("./routes/bookRouter.js");
 
-server.get("/about", (req, res) => {
-    res.sendFile(path.join(__dirname, "about.html"));
-});
-
-server.get("/contact", (req, res) => {
-    res.sendFile(path.join(__dirname, "contact.html"));
-});
-
-server.use((req, res) => {
-    res.sendFile(path.join(__dirname, "404.html"));
-});
+server.use("/", indexRouter);
+server.use("/authors", authorRouter);
+server.use("/books", bookRouter);
 
 server.listen(3000, () => {
-    console.log("Listening at localhost:3000");
-})
+  console.log("Listening at localhost:3000");
+});
