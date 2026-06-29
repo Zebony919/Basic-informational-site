@@ -1,7 +1,15 @@
 const express = require("express");
 const server = express();
-const path = require("path");
+const path = require("node:path");
 const reserves = require("./routes/data.json");
+
+const links = [
+  { href: "/", text: "Home" },
+  { href: "/about", text: "About" },
+];
+
+server.set("views", path.join(__dirname, "views"));
+server.set("view engine", "ejs");
 
 server.use(express.static("public"));
 server.use(express.json());
@@ -13,10 +21,6 @@ const bookRouter = require("./routes/bookRouter.js");
 server.use("/authors", authorRouter);
 server.use("/books", bookRouter);
 server.use("/", indexRouter);
-
-server.use((req, res, next) => {
-  throw new Error("OH NO!");
-});
 
 server.use((err, req, res, next) => {
   console.error(err);

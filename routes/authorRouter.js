@@ -15,6 +15,10 @@ authorRouter.use(middleWare);
 
 authorRouter.get("/name/:authorName", getAuthorByName);
 
+authorRouter.get("/ejs", (req, res) => {
+  res.render("index", { message: "Or Does It???" });
+});
+
 authorRouter.get("/", (req, res) => {
   res.send("All Authors");
 });
